@@ -6,9 +6,22 @@
 -- 2.0 SQL Queries
 -- In this section you will be performing various queries against the Oracle Chinook database.
 -- 2.1 SELECT
+
 -- Task – Select all records from the Employee table.
+SET SCHEMA 'chinook';
+SELECT * FROM employee;
+
 -- Task – Select all records from the Employee table where last name is King.
+SET SCHEMA 'chinook';
+SELECT * FROM employee
+where employee.lastname = 'King';
+
 -- Task – Select all records from the Employee table where first name is Andrew and REPORTSTO is NULL.
+SET SCHEMA 'chinook';
+SELECT * FROM employee
+where employee.firstname = 'Andrew'
+and employee.reportsto IS NULL;
+
 -- 2.2 ORDER BY
 -- Task – Select all albums in Album table and sort result set in descending order by title.
 -- Task – Select first name from Customer and sort result set in ascending order by city
