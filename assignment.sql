@@ -207,6 +207,15 @@ $$ LANGUAGE plpgsql;
 -- 4.2 Stored Procedure Input Parameters
 -- Task – Create a stored procedure that updates the personal information of an employee.
 SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION emp_update(emp_id integer, emp_fname varchar(20), emp_lname varchar(20))
+RETURNS void
+ AS $$ -- Delimiter
+	BEGIN -- starts a transaction
+			UPDATE employee
+			SET firstname = emp_fname, lastname = emp_lname
+			WHERE employeeid = emp_id;
+	END;
+$$ LANGUAGE plpgsql;
 
 -- Task – Create a stored procedure that returns the managers of an employee.
 SET SCHEMA 'chinook';
@@ -215,7 +224,19 @@ SET SCHEMA 'chinook';
 -- 4.3 Stored Procedure Output Parameters
 -- Task – Create a stored procedure that returns the name and company of a customer.
 SET SCHEMA 'chinook';
-
+CREATE OR REPLACE FUNCTION cust_comp(cust_id Integer)
+RETURNS table(
+	cust_fname varchar(40),
+	cust_lname varchar(20),
+	cust_company varchar(80)
+) AS $$ -- Delimiter
+	BEGIN -- starts a transaction
+		RETURN QUERY
+			SELECT customer.firstname as cust_fname, customer.lastname as cust_lname, customer.company as cust_company
+			FROM customer
+			WHERE customerid = cust_id;
+	END;
+$$ LANGUAGE plpgsql;
 
 -- 5.0 Transactions
 -- just write the code
