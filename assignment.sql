@@ -77,7 +77,6 @@ WHERE hiredate BETWEEN '2003-06-01 00:00:00' AND '2004-03-01 00:00:00';
 -- 2.7 DELETE
 -- Task – Delete a record in Customer table where the name is Robert Walter (There may be constraints that rely on this, find out how to resolve them).
 SET SCHEMA 'chinook';
-SET SCHEMA 'chinook';
 
 DELETE FROM invoiceline
 WHERE invoiceid IN (
@@ -98,6 +97,7 @@ WHERE firstname = 'Robert' AND lastname = 'Walter';
 
 -- 3.0	SQL Functions
 -- In this section you will be using the Oracle system functions, as well as your own functions, to perform various actions against the database
+-- Make functions?
 
 -- 3.1 System Defined Functions
 -- Task – Create a function that returns the current time.
@@ -126,7 +126,8 @@ SET SCHEMA 'chinook';
 
 
 -- 4.0 Stored Procedures
---  In this section you will be creating and executing stored procedures. You will be creating various types of stored procedures that take input and output parameters.
+-- In this section you will be creating and executing stored procedures. You will be creating various types of stored procedures that take input and output parameters.
+-- make fns?
 
 -- 4.1 Basic Stored Procedure
 -- Task – Create a stored procedure that selects the first and last names of all the employees.
@@ -147,11 +148,12 @@ SET SCHEMA 'chinook';
 
 
 -- 5.0 Transactions
+-- just write the code
 -- In this section you will be working with transactions. Transactions are usually nested within a stored procedure. You will also be working with handling errors in your SQL.
 -- Task – Create a transaction that given a invoiceId will delete that invoice (There may be constraints that rely on this, find out how to resolve them).
 SET SCHEMA 'chinook';
 
--- Task – Create a transaction nested within a stored procedure that inserts a new record in the Customer table
+-- Taskg – Create a transaction nested within a stored procedure that inserts a new record in the Customer table
 SET SCHEMA 'chinook';
 
 
@@ -180,27 +182,38 @@ SET SCHEMA 'chinook';
 -- 7.1 INNER
 -- Task – Create an inner join that joins customers and orders and specifies the name of the customer and the invoiceId.
 SET SCHEMA 'chinook';
-
+SELECT customer.firstname, customer.lastname, invoice.invoiceid 
+FROM customer
+INNER JOIN invoice on customer.customerid = invoice.customerid
 
 -- 7.2 OUTER
 -- Task – Create an outer join that joins the customer and invoice table, specifying the CustomerId, firstname, lastname, invoiceId, and total.
 SET SCHEMA 'chinook';
-
+SELECT customer.customerid, customer.firstname, customer.lastname, invoice.invoiceid, invoice.total
+FROM customer
+FULL OUTER JOIN invoice on customer.customerid = invoice.customerid
 
 -- 7.3 RIGHT
 -- Task – Create a right join that joins album and artist specifying artist name and title.
 SET SCHEMA 'chinook';
-
+SELECT artist.name, album.title
+FROM album
+RIGHT JOIN artist ON artist.artistid = album.artistid
 
 -- 7.4 CROSS
 -- Task – Create a cross join that joins album and artist and sorts by artist name in ascending order.
 SET SCHEMA 'chinook';
-
+SELECT artist.name, album.title
+FROM album
+CROSS JOIN artist ORDER BY artist.name ASC
 
 -- 7.5 SELF
 -- Task – Perform a self-join on the employee table, joining on the reportsto column.
 SET SCHEMA 'chinook';
-
+SET SCHEMA 'chinook';
+SELECT one.firstname, one.lastname, two.firstname, two.lastname
+FROM employee one
+INNER JOIN employee two ON one.reportsto = two.reportsto
 
 
 
