@@ -101,29 +101,88 @@ WHERE firstname = 'Robert' AND lastname = 'Walter';
 
 -- 3.1 System Defined Functions
 -- Task – Create a function that returns the current time.
-SET SCHEMA 'chinook';
 
--- Task – create a function that returns the length of a mediatype from the mediatype table
 SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION cur_time()
+RETURNS text AS $$ -- Delimiter
+	BEGIN -- starts a transaction
+		RETURN CURRENT_TIME;
+	END;
+$$ LANGUAGE plpgsql;
+-- SELECT cur_time();
 
+-- Task – create a function that returns the length of a mediatype from the mediatype tagble
+SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION media_len(media integer)
+RETURNS text AS $$ -- Delimiter
+	DECLARE 
+		xy TEXT;
+	BEGIN -- starts a transaction
+		SELECT name INTO xy 
+		FROM mediatype
+		WHERE mediatypeid = media;
+		return length(xy);
+	END;
+$$ LANGUAGE plpgsql;
 
 -- 3.2 System Defined Aggregate Functions
 -- Task – Create a function that returns the average total of all invoices
 SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION avg_num()
+RETURNS text AS $$ -- Delimiter
+	DECLARE 
+		xy INTEGER;
+	BEGIN -- starts a transaction
+		SELECT AVG(total) INTO xy 
+		FROM invoice;
+		return xy;
+	END;
+$$ LANGUAGE plpgsql;
+--huh???????
 
 -- Task – Create a function that returns the most expensive track
 SET SCHEMA 'chinook';
-
+CREATE OR REPLACE FUNCTION max_track()
+RETURNS text AS $$ -- Delimiter
+	DECLARE 
+		xy INTEGER;
+	BEGIN -- starts a transaction
+		SELECT MAX(unitprice) INTO xy 
+		FROM track;
+		return xy;
+	END;
+$$ LANGUAGE plpgsql
 
 -- 3.3 User Defined Scalar Functions
 -- Task – Create a function that returns the average price of invoiceline items in the invoiceline table
 SET SCHEMA 'chinook';
-
+CREATE OR REPLACE FUNCTION avg_price()
+RETURNS text AS $$ -- Delimiter
+	DECLARE 
+		xy INTEGER;
+	BEGIN -- starts a transaction
+		SELECT AVG(unitprice) INTO xy 
+		FROM invoiceline;
+		return xy;
+	END;
+$$ LANGUAGE plpgsql;
 
 -- 3.4 User Defined Table Valued Functions
 -- Task – Create a function that returns all employees who are born after 1968.
 SET SCHEMA 'chinook';
-
+CREATE OR REPLACE FUNCTION avg_price()
+RETURNS table(
+	employee_fname varchar(20),
+	employee_lname varchar(20),
+	employee_bdate timestamp
+) AS $$ -- Delimiter
+	BEGIN -- starts a transaction
+		RETURN QUERY
+			SELECT employee.firstname as employee_fname, employee.lastname as employee_lname, employee.birthdate as employee_bdate
+			FROM employee
+			WHERE employee.birthdate >= '1969-01-01 00:00:00';
+	END;
+$$ LANGUAGE plpgsql;
 
 -- 4.0 Stored Procedures
 -- In this section you will be creating and executing stored procedures. You will be creating various types of stored procedures that take input and output parameters.
@@ -132,6 +191,17 @@ SET SCHEMA 'chinook';
 -- 4.1 Basic Stored Procedure
 -- Task – Create a stored procedure that selects the first and last names of all the employees.
 SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION emp_name()
+RETURNS table(
+	employee_fname varchar(20),
+	employee_lname varchar(20)
+) AS $$ -- Delimiter
+	BEGIN -- starts a transaction
+		RETURN QUERY
+			SELECT employee.firstname as employee_fname, employee.lastname as employee_lname
+			FROM employee;
+	END;
+$$ LANGUAGE plpgsql;
 
 
 -- 4.2 Stored Procedure Input Parameters
