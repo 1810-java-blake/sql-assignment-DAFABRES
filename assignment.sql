@@ -268,13 +268,51 @@ $$ LANGUAGE plpgsql;
 -- 6.1 AFTER/FOR
 -- Task - Create an after insert trigger on the employee table fired after a new record is inserted into the table.
 SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION trig_function()
+RETURNS TRIGGER AS $$
+BEGIN
+	IF(TG_OP = 'INSERT') THEN
+		SELECT * FROM employee;
+ 		END IF;
+ 	RETURN NEW; 
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER emp_trig
+BEFORE INSERT ON employee
+EXECUTE PROCEDURE trig_function();
 
 -- Task – Create an after update trigger on the album table that fires after a row is inserted in the table
 SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION trig_function()
+RETURNS TRIGGER AS $$
+BEGIN
+	IF(TG_OP = 'INSERT') THEN
+		SELECT * FROM employee;
+ 		END IF;
+ 	RETURN NEW; 
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER emp_trig
+BEFORE INSERT ON employee
+EXECUTE PROCEDURE trig_function();
 
 -- Task – Create an after delete trigger on the customer table that fires after a row is deleted from the table.
 SET SCHEMA 'chinook';
+CREATE OR REPLACE FUNCTION trig_function()
+RETURNS TRIGGER AS $$
+BEGIN
+	IF(TG_OP = 'DELETE') THEN
+		SELECT * FROM employee;
+ 		END IF;
+ 	RETURN NEW; -- return new so that it will put the data into the users table still
+END;
+$$ LANGUAGE plpgsql;
 
+CREATE TRIGGER emp_trig
+BEFORE DELETE ON employee
+EXECUTE PROCEDURE trig_function();
 
 -- 6.2 Before
 -- Task – Create a before trigger that restricts the deletion of any invoice that is priced over 50 dollars.
