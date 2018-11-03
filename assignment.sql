@@ -220,7 +220,7 @@ $$ LANGUAGE plpgsql;
 -- Task – Create a stored procedure that returns the managers of an employee.
 SET SCHEMA 'chinook';
 
-
+--subqueries
 -- 4.3 Stored Procedure Output Parameters
 -- Task – Create a stored procedure that returns the name and company of a customer.
 SET SCHEMA 'chinook';
@@ -243,10 +243,24 @@ $$ LANGUAGE plpgsql;
 -- In this section you will be working with transactions. Transactions are usually nested within a stored procedure. You will also be working with handling errors in your SQL.
 -- Task – Create a transaction that given a invoiceId will delete that invoice (There may be constraints that rely on this, find out how to resolve them).
 SET SCHEMA 'chinook';
+DELETE FROM invoiceline
+WHERE invoiceid IN (
+	SELECT invoiceid from invoice
+	WHERE invoiceid = 1);
+	
+DELETE FROM invoice
+WHERE invoiceid = 1;
 
--- Taskg – Create a transaction nested within a stored procedure that inserts a new record in the Customer table
+-- Task – Create a transaction nested within a stored procedure that inserts a new record in the Customer table
 SET SCHEMA 'chinook';
-
+CREATE OR REPLACE FUNCTION cust_new(cust_id integer, cust_fname varchar(20), cust_lname varchar(20), cust_email varchar(60))
+RETURNS void
+ AS $$ -- Delimiter
+	BEGIN -- starts a transaction
+			INSERT INTO customer(customerid, firstname, lastname, email)
+			VALUES(cust_id, cust_fname, cust_lname, cust_email);
+	END;
+$$ LANGUAGE plpgsql;
 
 -- 6.0 Triggers
 -- In this section you will create various kinds of triggers that work when certain DML statements are executed on a table.
