@@ -288,14 +288,14 @@ CREATE OR REPLACE FUNCTION trig_function()
 RETURNS TRIGGER AS $$
 BEGIN
 	IF(TG_OP = 'INSERT') THEN
-		SELECT * FROM employee;
+		SELECT * FROM album;
  		END IF;
  	RETURN NEW; 
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER emp_trig
-BEFORE INSERT ON employee
+BEFORE INSERT ON album
 EXECUTE PROCEDURE trig_function();
 
 -- Task – Create an after delete trigger on the customer table that fires after a row is deleted from the table.
@@ -304,14 +304,14 @@ CREATE OR REPLACE FUNCTION trig_function()
 RETURNS TRIGGER AS $$
 BEGIN
 	IF(TG_OP = 'DELETE') THEN
-		SELECT * FROM employee;
+		SELECT * FROM customer;
  		END IF;
  	RETURN NEW; -- return new so that it will put the data into the users table still
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER emp_trig
-BEFORE DELETE ON employee
+BEFORE DELETE ON customer
 EXECUTE PROCEDURE trig_function();
 
 -- 6.2 Before
