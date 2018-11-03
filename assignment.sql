@@ -353,7 +353,6 @@ CROSS JOIN artist ORDER BY artist.name ASC
 -- 7.5 SELF
 -- Task – Perform a self-join on the employee table, joining on the reportsto column.
 SET SCHEMA 'chinook';
-SET SCHEMA 'chinook';
 SELECT one.firstname, one.lastname, two.firstname, two.lastname
 FROM employee one
 INNER JOIN employee two ON one.reportsto = two.reportsto
